@@ -1,4 +1,7 @@
 # CatFacts Client
+
+[![Open in Dev Containers](https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode-remote-try-dotnet)
+
 .NET client for public Cat Facts API, found at [catfacts.ninja](https://catfact.ninja/).
 
 Supports the following endpoints:
@@ -14,5 +17,4 @@ The included Dev Container makes it easy to run the project in Docker via Visual
 
 ## TODOs
 - Documentation
-- Cleanup of Dev Container - remove all unnecessary components
 - Tests
