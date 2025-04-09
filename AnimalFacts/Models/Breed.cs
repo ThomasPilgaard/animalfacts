@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace CatFacts.Models;
+namespace AnimalFacts.Models;
 
 [DebuggerDisplay("{Name}")]
 public class Breed

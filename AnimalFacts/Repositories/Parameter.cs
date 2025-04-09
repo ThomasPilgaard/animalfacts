@@ -1,4 +1,4 @@
-namespace CatFacts.Repositories;
+namespace AnimalFacts.Repositories;
 
 public class Parameter
 {

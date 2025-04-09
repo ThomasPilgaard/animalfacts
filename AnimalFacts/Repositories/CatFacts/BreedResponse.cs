@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using CatFacts.Models;
+using AnimalFacts.Models;
 
-namespace CatFacts.Repositories;
+namespace AnimalFacts.Repositories.CatFacts;
 
 public class BreedResponse : CatFactResponse<Breed>
 {

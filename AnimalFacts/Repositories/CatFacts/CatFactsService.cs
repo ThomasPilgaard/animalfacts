@@ -1,11 +1,11 @@
 using System.Net.Http.Json;
 using System.Text;
-using CatFacts.Models;
+using AnimalFacts.Models;
 using Microsoft.Net.Http.Headers;
 
-namespace CatFacts.Repositories;
+namespace AnimalFacts.Repositories.CatFacts;
 
-public class CatFactsService : ICatFacts
+public class CatFactsService : IAnimalFacts<CatFactsService>
 {
     private readonly HttpClient _httpClient;
     private readonly Uri CatFactsBaseUrl = new("https://catfact.ninja");
@@ -18,17 +18,17 @@ public class CatFactsService : ICatFacts
             HeaderNames.UserAgent, "HttpRequestsSample");
     }
 
-    public async Task<IEnumerable<Breed>> GetCatBreeds(IEnumerable<Parameter> parameters)
+    public async Task<IEnumerable<Breed>> GetBreeds(IEnumerable<Parameter> parameters)
     {
         return await HandlePagination<BreedResponse, Breed>("/breeds", parameters);
     }
 
-    public async Task<IEnumerable<Fact>> GetCatFacts(IEnumerable<Parameter> parameters)
+    public async Task<IEnumerable<Fact>> GetFacts(IEnumerable<Parameter> parameters)
     {
         return await HandlePagination<FactResponse, Fact>("/facts", parameters);
     }
 
-    public async Task<Fact> GetRanddomCatFact(IEnumerable<Parameter> parameters)
+    public async Task<Fact> GetRanddomFact(IEnumerable<Parameter> parameters)
     {
         return await MakeGetRequest<Fact>("/fact", parameters);
     }
