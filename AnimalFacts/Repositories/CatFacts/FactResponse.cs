@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
-using AnimalFacts.Models;
 
 namespace AnimalFacts.Repositories.CatFacts;
 
-public class FactResponse : CatFactResponse<Fact>
+public class FactResponse : CatFactResponse<CatFact>
 {
     [JsonPropertyName("data")]
-    public override IEnumerable<Fact>? Data { get; set; }
+    public override IEnumerable<CatFact>? Data { get; set; }
 }

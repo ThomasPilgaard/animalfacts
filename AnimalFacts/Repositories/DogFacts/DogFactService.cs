@@ -1,4 +1,3 @@
-using System;
 using AnimalFacts.Models;
 using Microsoft.Net.Http.Headers;
 

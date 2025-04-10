@@ -20,17 +20,20 @@ public class CatFactsService : IAnimalFacts<CatFactsService>
 
     public async Task<IEnumerable<Breed>> GetBreeds(IEnumerable<Parameter> parameters)
     {
-        return await HandlePagination<BreedResponse, Breed>("/breeds", parameters);
+        var breeds = await HandlePagination<BreedResponse, CatBreed>("/breeds", parameters);
+        return breeds.Select(ConvertCatBreedToBreed);
     }
 
     public async Task<IEnumerable<Fact>> GetFacts(IEnumerable<Parameter> parameters)
     {
-        return await HandlePagination<FactResponse, Fact>("/facts", parameters);
+        var catFacts = await HandlePagination<FactResponse, CatFact>("/facts", parameters);
+        return catFacts.Select(ConvertCatFactToFact);
     }
 
     public async Task<Fact> GetRanddomFact(IEnumerable<Parameter> parameters)
     {
-        return await MakeGetRequest<Fact>("/fact", parameters);
+        var catFact = await MakeGetRequest<CatFact>("/fact", parameters);
+        return ConvertCatFactToFact(catFact);
     }
 
     private async Task<IEnumerable<E>> HandlePagination<T, E>(string path, IEnumerable<Parameter> parameters)
@@ -83,5 +86,22 @@ public class CatFactsService : IAnimalFacts<CatFactsService>
         }
 
         return queryString.ToString();
+    }
+
+    private static Fact ConvertCatFactToFact(CatFact fact)
+    {
+        return new Fact()
+        {
+            Message = fact.Message,
+            Length = fact.Length
+        };
+    }
+
+    private static Breed ConvertCatBreedToBreed(CatBreed breed)
+    {
+        return new Breed()
+        {
+            Name = breed.Name
+        };
     }
 }
