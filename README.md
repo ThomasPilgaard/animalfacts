@@ -1,17 +1,19 @@
-# CatFacts Client
+# Animal facts Client
 
 [![Open in Dev Containers](https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode-remote-try-dotnet)
 
-.NET client for public Cat Facts API, found at [catfacts.ninja](https://catfact.ninja/).
+.NET client for public Animal APIs. Currently the following API's are consumed:
+- Cat Facts API, found at [catfacts.ninja](https://catfact.ninja/).
+    - Supports the following endpoints:
+        - `/fact`
+        - `/facts`
+        - `/breeds`
+- Dog Facts API, found at [dogapi.dog](https://dogapi.dog/)
 
-Supports the following endpoints:
-- `/fact`
-- `/facts`
-- `/breeds`
 
 Build with: `dotnet build`
 
-Run with: `dotnet run --project CatFacts/CatFacts.csproj`
+Run with: `dotnet run`
 
 The included Dev Container makes it easy to run the project in Docker via Visual Studio Code.
 
