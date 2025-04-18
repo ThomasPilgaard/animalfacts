@@ -30,23 +30,33 @@ if (dogFacts is null)
 
 var parametersCatFact = new List<Parameter>()
 {
-    //new() {Name = "max_length", Value = "20"}
+    new() {Name = "max_length", Value = "20"}
 };
 Fact randomCatFact = await catFacts.GetRanddomFact(parametersCatFact);
 
 var parametersCatFacts = new List<Parameter>()
 {
-    //new() {Name = "max_length", Value = "20"},
-    //new() {Name = "limit", Value = "1"}
+    new() {Name = "max_length", Value = "20"},
+    new() {Name = "limit", Value = "10"}
 };
 IEnumerable<Fact> allCatFacts = await catFacts.GetFacts(parametersCatFacts);
 
 var parametersCatBreeds = new List<Parameter>()
 {
-    //new() {Name = "limit", Value = "1"}
+    new() {Name = "limit", Value = "10"}
 };
 IEnumerable<Breed> catBreeds = await catFacts.GetBreeds(parametersCatBreeds);
 
-Console.WriteLine($"Got random CatFact: '{randomCatFact.Message}' with length: {randomCatFact.Length} characters.");
+Console.WriteLine($"Got random cat fact: '{randomCatFact.Message}' with length: {randomCatFact.Length} characters.");
 Console.WriteLine($"Got {allCatFacts.Count()} cat facts! The first one being: '{allCatFacts.FirstOrDefault()?.Message}'");
 Console.WriteLine($"Got {catBreeds.Count()} cat breeds! The first one being: '{catBreeds.FirstOrDefault()?.Name}'");
+
+Fact randomDogFact = await dogFacts.GetRanddomFact([]);
+Console.WriteLine($"Got random Dog fact: '{randomDogFact.Message}' with length: {randomDogFact.Length} characters.");
+
+var parametersDogBreeds = new List<Parameter>()
+{
+    new() {Name = "limit", Value = "1"}
+};
+IEnumerable<Breed> dogBreeds = await dogFacts.GetBreeds(parametersDogBreeds);
+Console.WriteLine($"Got {dogBreeds.Count()} dog breeds! The first one being: '{dogBreeds.FirstOrDefault()?.Name}'");
