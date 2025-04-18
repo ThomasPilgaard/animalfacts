@@ -8,7 +8,7 @@ namespace AnimalFacts.Repositories.CatFacts;
 public class CatFactsService : IAnimalFacts<CatFactsService>
 {
     private readonly HttpClient _httpClient;
-    private readonly Uri CatFactsBaseUrl = new("https://catfact.ninja");
+    private readonly Uri CatFactsBaseUrl = new("https://catfact.ninja/");
 
     public CatFactsService(HttpClient httpClient)
     {
@@ -20,19 +20,19 @@ public class CatFactsService : IAnimalFacts<CatFactsService>
 
     public async Task<IEnumerable<Breed>> GetBreeds(IEnumerable<Parameter> parameters)
     {
-        var breeds = await HandlePagination<BreedResponse, CatBreed>("/breeds", parameters);
+        var breeds = await HandlePagination<BreedResponse, CatBreed>("breeds", parameters);
         return breeds.Select(ConvertCatBreedToBreed);
     }
 
     public async Task<IEnumerable<Fact>> GetFacts(IEnumerable<Parameter> parameters)
     {
-        var catFacts = await HandlePagination<FactResponse, CatFact>("/facts", parameters);
+        var catFacts = await HandlePagination<FactResponse, CatFact>("facts", parameters);
         return catFacts.Select(ConvertCatFactToFact);
     }
 
     public async Task<Fact> GetRanddomFact(IEnumerable<Parameter> parameters)
     {
-        var catFact = await MakeGetRequest<CatFact>("/fact", parameters);
+        var catFact = await MakeGetRequest<CatFact>("fact", parameters);
         return ConvertCatFactToFact(catFact);
     }
 
@@ -53,7 +53,7 @@ public class CatFactsService : IAnimalFacts<CatFactsService>
         while (nextUrl is not null)
         {
             Uri nextUri = new(nextUrl);
-            response = await MakeGetRequest<T>(nextUri.PathAndQuery, parameters);
+            response = await MakeGetRequest<T>(nextUri.PathAndQuery, parameters, true);
             responseData.AddRange(response.Data ?? []);
             nextUrl = response.NextPageUrl;
         }
@@ -61,19 +61,19 @@ public class CatFactsService : IAnimalFacts<CatFactsService>
         return responseData;
     }
 
-    private async Task<T> MakeGetRequest<T>(string path, IEnumerable<Parameter> parameters) where T : new()
+    private async Task<T> MakeGetRequest<T>(string path, IEnumerable<Parameter> parameters, bool handlingPagination = false) where T : new()
     {
-        var queryString = QueryBuilder(parameters);
+        var queryString = QueryBuilder(parameters, handlingPagination);
         return await _httpClient.GetFromJsonAsync<T>($"{path}{queryString}") ?? new T();
     }
 
-    private static string QueryBuilder(IEnumerable<Parameter> parameters)
+    private static string QueryBuilder(IEnumerable<Parameter> parameters, bool handlingPagination = false)
     {
         var queryString = new StringBuilder();
 
         foreach (var param in parameters)
         {
-            if (parameters.First() == param)
+            if (parameters.First() == param && !handlingPagination)
             {
                 queryString.Append('?');
             }
