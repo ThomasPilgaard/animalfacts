@@ -18,14 +18,23 @@ public class DogFactService : IAnimalFacts<DogFactService>
             HeaderNames.UserAgent, "HttpRequestsSample");
     }
 
-    public Task<IEnumerable<Breed>> GetBreeds(IEnumerable<Parameter> parameters)
+    public async Task<IEnumerable<Breed>> GetBreeds(IEnumerable<Parameter> parameters)
     {
-        throw new NotImplementedException();
+        var breeds = new List<Breed>();
+
+        var dogBreeds = await MakeGetRequest<DogResponse<DogBreed>>("breeds", parameters);
+
+        foreach (var dogBreed in dogBreeds.Data)
+        {
+            breeds.Add(ConvertDogBreedToBreed(dogBreed.Attributes));
+        }
+
+        return breeds;
     }
 
     public Task<IEnumerable<Fact>> GetFacts(IEnumerable<Parameter> parameters)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 
     public async Task<Fact> GetRanddomFact(IEnumerable<Parameter> parameters)
@@ -67,6 +76,14 @@ public class DogFactService : IAnimalFacts<DogFactService>
         {
             Message = fact.Message,
             Length = !string.IsNullOrWhiteSpace(fact.Message) ? fact.Message.Length : 0
+        };
+    }
+
+    private static Breed ConvertDogBreedToBreed(DogBreed breed)
+    {
+        return new Breed
+        {
+            Name = breed.Name
         };
     }
 }
